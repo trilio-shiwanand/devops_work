@@ -6,12 +6,12 @@ Purpose: To collect the last successful jenkins jobs details like executor, date
 ## conf.py details
 You need to specify following parameters before execution of 'jenkins_jobs_details.py' script
 
-jenkins_url="http://<IP>:8080"
-jenkins_username="USERNAME"
-jenkins_password="PASSWORD"
-jenkins_dirname="DIRECTORY_NAME"
-jenkins_jobsubstr="SUB_STRING"
-jenkins_outputfile = "./<OUTPUT_FILE_NAME>.txt"
+  jenkins_url="http://<IP>:8080"
+  jenkins_username="USERNAME"
+  jenkins_password="PASSWORD"
+  jenkins_dirname="DIRECTORY_NAME"
+  jenkins_jobsubstr="SUB_STRING"
+  jenkins_outputfile = "./<OUTPUT_FILE_NAME>.txt"
 
 
 ## To Run jenkins_jobs_details.py 
