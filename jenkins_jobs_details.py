@@ -5,7 +5,8 @@ import requests
 import json
 import config
 import tabulate
-import codecs
+import datetime
+import os.path
 from datetime import datetime
 
 ## configuration data from config.py file
@@ -27,6 +28,7 @@ print (get_server_instance())
 
 def get_job_details():
     server = get_server_instance()
+
     for job_name, job_instance in server.get_jobs():
         all_job_name_list=job_instance.name
         # print('all job: ' + str(all_job_name_list))
@@ -39,6 +41,8 @@ def get_job_details():
             #print('\nBase_url :' + str(base_url))
             response = requests.get(url, auth=(username, password), verify=False)
             ##print(str(response))
+            ## File operations
+
             f = open(JENKINS_OUTPUTFILE, 'a+')
             try:
                 buildnumberJson = json.loads(response.text)
@@ -74,18 +78,15 @@ def get_job_details():
                     executor = last_success_job_data['executor']
                     full_disp_name = last_success_job_data['fullDisplayName']
                     date = last_success_job_data['timestamp']
-
-                    # date = datetime.datetime.fromtimestamp(date/1000)
-                    #get_all_param = last_success_job_data['actions'][0]['parameters']
-                    #get_param = [dict(class_name=k1["_class"], name=k1["name"], value=k1["value"]) for k1 in get_all_param]
-                    #key_value = [dict(name=k1["name"], value=k1["value"]) for k1 in get_param]
-
+                    timestamp = date
+                    date = datetime.fromtimestamp(timestamp / 1e3)
+                    
                     print('Job FullName: ' + str(full_disp_name))
                     print('Job Result: ' + str(result))
                     print('Executor Name: ' + str(executor))
                     print('Last Successful Build No: ' + str(build_no))
                     print('Date: ' + str(date))
-                    # f = open(JENKINS_OUTPUTFILE, 'a+')
+                    
                     f.write('\nJob FullName: ' + str(full_disp_name)+'\n')
                     f.write('Job Result: ' + str(result)+'\n')
                     f.write('Executor Name: ' + str(executor)+'\n')
