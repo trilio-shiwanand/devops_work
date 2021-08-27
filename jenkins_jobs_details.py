@@ -35,6 +35,9 @@ def get_job_details():
     headerList = re.findall(r"'(.*?)'", headerList, re.DOTALL)
     headerList = str(headerList)[1:-1]
 
+    headerList = headerList.strip('"')
+    headerList = headerList.replace("'", "")
+
     f = open(JENKINS_OUTPUTFILE, 'w')
     f.write(headerList)
     f.write('\n')
@@ -111,6 +114,11 @@ def get_job_details():
                         print('\nParameters are as belows')
                         record = (str(one_job_data) + str(final_rows))
 
+                        ## Remove Single and double quotes
+                        record = record.strip('"')
+                        record = record.replace("'", "")
+                        print(record)
+
                         f.write(record)
                         f.write('\n')
                         print('--------------------****----------------------\n')
@@ -128,8 +136,13 @@ def get_job_details():
 
                         print('\nParameters are as belows')
                         record = (str(one_job_data) + str(final_rows))
-                        f.write(record)
 
+                        ## Remove Single and double quotes
+                        record = record.strip('"')
+                        record = record.replace("'", "")
+                        print(record)
+
+                        f.write(record)
                         f.write('\n')
                         print('--------------------****----------------------\n')
 
@@ -142,5 +155,13 @@ def get_job_details():
                     f.write('\nLast Build Result Is Failed')
                     f = f.close(JENKINS_OUTPUTFILE)
 get_job_details()
+
+def csv_to_html():
+    a = pd.read_csv(JENKINS_OUTPUTFILE)
+    print(a)
+    a.to_html(JENKINS_REPORTFILE)
+    html_file = a.to_html()
+csv_to_html()
+
 
 print ('Done...')
